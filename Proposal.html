@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Question 💍</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating particles in background */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+                radial-gradient(circle, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+            background-size: 50px 50px, 80px 80px;
+            background-position: 0 0, 40px 40px;
+            animation: particleFloat 20s linear infinite;
+        }
+
+        @keyframes particleFloat {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-100px); }
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 50px 35px;
+            border-radius: 30px;
+            box-shadow: 
+                0 30px 90px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+            max-width: 420px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+            animation: containerEntry 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes containerEntry {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        h1 {
+            background: linear-gradient(135deg, #e73c7e, #ee7752);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 36px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            animation: fadeIn 1s ease-in;
+            text-shadow: 0 2px 10px rgba(231, 60, 126, 0.3);
+        }
+
+        .question {
+            font-size: 24px;
+            color: #444;
+            margin-bottom: 45px;
+            font-weight: 500;
+            line-height: 1.4;
+            animation: fadeIn 1.5s ease-in;
+        }
+
+        .emoji {
+            font-size: 80px;
+            margin-bottom: 25px;
+            animation: float 3s ease-in-out infinite, rotate 4s ease-in-out infinite;
+            filter: drop-shadow(0 5px 15px rgba(231, 60, 126, 0.4));
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+        }
+
+        @keyframes rotate {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .buttons-container {
+            position: relative;
+            min-height: 170px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        button {
+            padding: 18px 50px;
+            font-size: 22px;
+            border: none;
+            border-radius: 60px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            min-width: 160px;
+            letter-spacing: 0.5px;
+        }
+
+        #yesBtn {
+            background: linear-gradient(135deg, #ee7752, #e73c7e);
+            color: white;
+            box-shadow: 
+                0 8px 25px rgba(231, 60, 126, 0.5),
+                0 0 0 3px rgba(255, 255, 255, 0.3) inset;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+        #yesBtn:hover {
+            transform: scale(1.1) translateY(-3px);
+            box-shadow: 
+                0 12px 35px rgba(231, 60, 126, 0.7),
+                0 0 0 3px rgba(255, 255, 255, 0.5) inset;
+        }
+
+        #yesBtn:active {
+            transform: scale(1.05) translateY(-1px);
+        }
+
+        #noBtn {
+            background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
+            color: #888;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            position: absolute;
+            transition: all 0.3s ease;
+        }
+
+        .celebration {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(-45deg, #ff6b9d, #c06c84, #f67280, #ffa07a);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .celebration-content {
+            text-align: center;
+            color: white;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .celebration-content h2 {
+            font-size: 56px;
+            margin-bottom: 25px;
+            font-weight: 800;
+            animation: bounceIn 0.8s ease-out;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .celebration-content p {
+            font-size: 26px;
+            font-weight: 500;
+            animation: fadeIn 1.2s ease-in;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.15); }
+            70% { transform: scale(0.95); }
+            100% { transform: scale(1); }
+        }
+
+        .hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 35px;
+            animation: fall 4s linear;
+            opacity: 0;
+            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+        }
+
+        @keyframes fall {
+            0% {
+                opacity: 1;
+                top: -10%;
+                transform: translateX(0) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                top: 110%;
+                transform: translateX(100px) rotate(360deg);
+            }
+        }
+
+        /* Sparkle effect */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            animation: sparkleAnimation 1.5s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes sparkleAnimation {
+            0%, 100% { 
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% { 
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="emoji">💍</div>
+        <h1>Surya</h1>
+        <p class="question">Will you marry me?</p>
+        
+        <div class="buttons-container">
+            <button id="yesBtn">Yes! 💕</button>
+            <button id="noBtn">No</button>
+        </div>
+    </div>
+
+    <div class="celebration" id="celebration">
+        <div class="celebration-content">
+            <h2>🎉 YES! 🎉</h2>
+            <p>You've made me the happiest person!</p>
+            <p style="margin-top: 20px; font-size: 40px;">💑 ❤️ 💍</p>
+        </div>
+        <div class="hearts" id="hearts"></div>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const celebration = document.getElementById('celebration');
+        const heartsContainer = document.getElementById('hearts');
+        const container = document.querySelector('.container');
+
+        let noBtnSize = 100;
+
+        function moveNoButton() {
+            const containerRect = container.getBoundingClientRect();
+            const buttonWidth = noBtn.offsetWidth;
+            const buttonHeight = noBtn.offsetHeight;
+            
+            // Calculate safe boundaries within the container
+            const maxX = containerRect.width - buttonWidth - 40;
+            const maxY = 200;
+            
+            // Random position
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+            
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+            
+            // Random size change (shrink over time)
+            noBtnSize = Math.max(40, noBtnSize - 5);
+            noBtn.style.fontSize = noBtnSize + '%';
+            noBtn.style.padding = (noBtnSize / 100 * 15) + 'px ' + (noBtnSize / 100 * 40) + 'px';
+        }
+
+        // Move button on hover (for desktop)
+        noBtn.addEventListener('mouseenter', moveNoButton);
+
+        // Move button on touch start (for mobile)
+        noBtn.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            moveNoButton();
+        });
+
+        // Also move on click attempt
+        noBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            moveNoButton();
+        });
+
+        // Yes button celebration
+        yesBtn.addEventListener('click', function() {
+            celebration.style.display = 'flex';
+            createHearts();
+            
+            // Play celebration animation
+            setTimeout(() => {
+                alert('I love you! 💕');
+            }, 1000);
+        });
+
+        function createHearts() {
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart';
+                    heart.textContent = '❤️';
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                    heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                    heartsContainer.appendChild(heart);
+                    
+                    setTimeout(() => heart.remove(), 5000);
+                }, i * 100);
+            }
+        }
+
+        // Initial position for No button
+        moveNoButton();
+
+        // Create sparkles around the container
+        function createSparkles() {
+            const container = document.querySelector('.container');
+            setInterval(() => {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.animationDelay = Math.random() * 1 + 's';
+                container.appendChild(sparkle);
+                
+                setTimeout(() => sparkle.remove(), 1500);
+            }, 300);
+        }
+
+        createSparkles();
+    </script>
+</body>
+</html>
