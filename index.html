@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Special Question 💍</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        
         * {
             margin: 0;
             padding: 0;
@@ -12,7 +14,7 @@
         }
 
         body {
-            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            font-family: 'Poppins', sans-serif;
             background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
             background-size: 400% 400%;
             animation: gradientShift 15s ease infinite;
@@ -31,79 +33,101 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Floating particles in background */
-        body::before {
-            content: '';
-            position: absolute;
+        /* Floating particles background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
-                radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
-                radial-gradient(circle, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
-            background-size: 50px 50px, 80px 80px;
-            background-position: 0 0, 40px 40px;
-            animation: particleFloat 20s linear infinite;
+            pointer-events: none;
+            z-index: 1;
         }
 
-        @keyframes particleFloat {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-100px); }
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: floatParticle 20s infinite;
+        }
+
+        @keyframes floatParticle {
+            0%, 100% {
+                transform: translateY(0) translateX(0) scale(1);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px) scale(0);
+                opacity: 0;
+            }
         }
 
         .container {
             text-align: center;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             padding: 50px 35px;
             border-radius: 30px;
-            box-shadow: 
-                0 30px 90px rgba(0, 0, 0, 0.3),
-                0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             max-width: 420px;
             width: 100%;
             position: relative;
-            z-index: 1;
-            animation: containerEntry 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 10;
+            animation: slideUp 0.8s ease-out;
         }
 
-        @keyframes containerEntry {
+        @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: scale(0.8) translateY(50px);
+                transform: translateY(50px);
             }
             to {
                 opacity: 1;
-                transform: scale(1) translateY(0);
+                transform: translateY(0);
             }
         }
 
-        h1 {
-            background: linear-gradient(135deg, #e73c7e, #ee7752);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: 36px;
-            margin-bottom: 15px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            animation: fadeIn 1s ease-in;
-            text-shadow: 0 2px 10px rgba(231, 60, 126, 0.3);
-        }
-
-        .question {
-            font-size: 24px;
-            color: #444;
-            margin-bottom: 45px;
-            font-weight: 500;
-            line-height: 1.4;
-            animation: fadeIn 1.5s ease-in;
+        .ring-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 25px;
         }
 
         .emoji {
             font-size: 80px;
-            margin-bottom: 25px;
             animation: float 3s ease-in-out infinite, rotate 4s ease-in-out infinite;
-            filter: drop-shadow(0 5px 15px rgba(231, 60, 126, 0.4));
+            display: inline-block;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+        }
+
+        .sparkle {
+            position: absolute;
+            font-size: 24px;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        .sparkle:nth-child(1) { top: 0; left: -10px; animation-delay: 0s; }
+        .sparkle:nth-child(2) { top: 0; right: -10px; animation-delay: 0.5s; }
+        .sparkle:nth-child(3) { bottom: 10px; left: -15px; animation-delay: 1s; }
+        .sparkle:nth-child(4) { bottom: 10px; right: -15px; animation-delay: 1.5s; }
+
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         @keyframes float {
@@ -112,8 +136,31 @@
         }
 
         @keyframes rotate {
-            0%, 100% { transform: rotate(-10deg); }
-            50% { transform: rotate(10deg); }
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        h1 {
+            background: linear-gradient(135deg, #fff 0%, #f8f8f8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 36px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            animation: fadeIn 1s ease-in;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            letter-spacing: 1px;
+        }
+
+        .question {
+            font-size: 24px;
+            color: #ffffff;
+            margin-bottom: 45px;
+            font-weight: 400;
+            animation: fadeIn 1.5s ease-in;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            line-height: 1.5;
         }
 
         @keyframes fadeIn {
@@ -123,56 +170,76 @@
 
         .buttons-container {
             position: relative;
-            min-height: 170px;
+            min-height: 180px;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 20px;
+            padding-top: 20px;
         }
 
         button {
             padding: 18px 50px;
             font-size: 22px;
             border: none;
-            border-radius: 60px;
+            border-radius: 50px;
             cursor: pointer;
-            font-weight: 700;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             min-width: 160px;
             letter-spacing: 0.5px;
         }
 
         #yesBtn {
-            background: linear-gradient(135deg, #ee7752, #e73c7e);
+            background: linear-gradient(135deg, #ff6b9d 0%, #c06c84 100%);
             color: white;
-            box-shadow: 
-                0 8px 25px rgba(231, 60, 126, 0.5),
-                0 0 0 3px rgba(255, 255, 255, 0.3) inset;
-            animation: pulse 2s ease-in-out infinite;
+            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.03); }
+        #yesBtn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        #yesBtn:hover::before {
+            left: 100%;
         }
 
         #yesBtn:hover {
-            transform: scale(1.1) translateY(-3px);
-            box-shadow: 
-                0 12px 35px rgba(231, 60, 126, 0.7),
-                0 0 0 3px rgba(255, 255, 255, 0.5) inset;
+            transform: scale(1.15) translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.6);
         }
 
         #yesBtn:active {
-            transform: scale(1.05) translateY(-1px);
+            transform: scale(1.08) translateY(-3px);
         }
 
         #noBtn {
-            background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
-            color: #888;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-            position: absolute;
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            position: relative;
             transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        #noBtn.moving {
+            position: absolute;
+        }
+
+        #noBtn:hover {
+            background: rgba(255, 255, 255, 0.15);
         }
 
         .celebration {
@@ -182,9 +249,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(-45deg, #ff6b9d, #c06c84, #f67280, #ffa07a);
+            background: linear-gradient(-45deg, #ff9a9e 0%, #fecfef 50%, #ffdde1 100%);
             background-size: 400% 400%;
-            animation: gradientShift 8s ease infinite;
+            animation: gradientShift 10s ease infinite;
             z-index: 1000;
             align-items: center;
             justify-content: center;
@@ -193,26 +260,28 @@
         .celebration-content {
             text-align: center;
             color: white;
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            padding: 40px 30px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
             border-radius: 30px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            max-width: 90%;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
         }
 
         .celebration-content h2 {
             font-size: 56px;
-            margin-bottom: 25px;
-            font-weight: 800;
+            margin-bottom: 20px;
             animation: bounceIn 0.8s ease-out;
-            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            font-weight: 700;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
 
         .celebration-content p {
             font-size: 26px;
-            font-weight: 500;
             animation: fadeIn 1.2s ease-in;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            font-weight: 400;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
         }
 
         @keyframes bounceIn {
@@ -234,51 +303,70 @@
 
         .heart {
             position: absolute;
-            font-size: 35px;
+            font-size: 30px;
             animation: fall 4s linear;
             opacity: 0;
-            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.2));
         }
 
         @keyframes fall {
             0% {
                 opacity: 1;
                 top: -10%;
-                transform: translateX(0) rotate(0deg);
+                transform: rotate(0deg);
             }
             100% {
                 opacity: 0;
                 top: 110%;
-                transform: translateX(100px) rotate(360deg);
+                transform: rotate(360deg);
             }
         }
 
-        /* Sparkle effect */
-        .sparkle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: white;
-            border-radius: 50%;
-            animation: sparkleAnimation 1.5s ease-in-out infinite;
-            pointer-events: none;
-        }
-
-        @keyframes sparkleAnimation {
-            0%, 100% { 
-                opacity: 0;
-                transform: scale(0);
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .container {
+                padding: 40px 25px;
             }
-            50% { 
-                opacity: 1;
-                transform: scale(1);
+            
+            h1 {
+                font-size: 30px;
+            }
+            
+            .question {
+                font-size: 20px;
+            }
+            
+            .emoji {
+                font-size: 65px;
+            }
+            
+            button {
+                font-size: 19px;
+                padding: 16px 40px;
+            }
+            
+            .celebration-content h2 {
+                font-size: 42px;
+            }
+            
+            .celebration-content p {
+                font-size: 22px;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Floating particles -->
+    <div class="particles" id="particles"></div>
+
     <div class="container">
-        <div class="emoji">💍</div>
+        <div class="ring-container">
+            <div class="sparkle">✨</div>
+            <div class="sparkle">✨</div>
+            <div class="sparkle">✨</div>
+            <div class="sparkle">✨</div>
+            <div class="emoji">💍</div>
+        </div>
         <h1>Surya</h1>
         <p class="question">Will you marry me?</p>
         
@@ -303,10 +391,30 @@
         const celebration = document.getElementById('celebration');
         const heartsContainer = document.getElementById('hearts');
         const container = document.querySelector('.container');
+        const particlesContainer = document.getElementById('particles');
 
-        let noBtnSize = 100;
+        // Create floating particles
+        function createParticles() {
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.width = Math.random() * 5 + 2 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDuration = Math.random() * 15 + 10 + 's';
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        createParticles();
 
         function moveNoButton() {
+            // Add moving class to make it absolute positioned
+            if (!noBtn.classList.contains('moving')) {
+                noBtn.classList.add('moving');
+            }
+            
             const containerRect = container.getBoundingClientRect();
             const buttonWidth = noBtn.offsetWidth;
             const buttonHeight = noBtn.offsetHeight;
@@ -322,10 +430,10 @@
             noBtn.style.left = randomX + 'px';
             noBtn.style.top = randomY + 'px';
             
-            // Random size change (shrink over time)
-            noBtnSize = Math.max(40, noBtnSize - 5);
-            noBtn.style.fontSize = noBtnSize + '%';
-            noBtn.style.padding = (noBtnSize / 100 * 15) + 'px ' + (noBtnSize / 100 * 40) + 'px';
+            // Random size change (between 40% and 100%)
+            const randomSize = Math.random() * 60 + 40; // Random between 40 and 100
+            noBtn.style.fontSize = randomSize + '%';
+            noBtn.style.padding = (randomSize / 100 * 18) + 'px ' + (randomSize / 100 * 50) + 'px';
         }
 
         // Move button on hover (for desktop)
@@ -359,7 +467,8 @@
                 setTimeout(() => {
                     const heart = document.createElement('div');
                     heart.className = 'heart';
-                    heart.textContent = '❤️';
+                    const heartSymbols = ['❤️', '💕', '💖', '💗', '💓', '💝'];
+                    heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
                     heart.style.left = Math.random() * 100 + '%';
                     heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
                     heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
@@ -369,26 +478,6 @@
                 }, i * 100);
             }
         }
-
-        // Initial position for No button
-        moveNoButton();
-
-        // Create sparkles around the container
-        function createSparkles() {
-            const container = document.querySelector('.container');
-            setInterval(() => {
-                const sparkle = document.createElement('div');
-                sparkle.className = 'sparkle';
-                sparkle.style.left = Math.random() * 100 + '%';
-                sparkle.style.top = Math.random() * 100 + '%';
-                sparkle.style.animationDelay = Math.random() * 1 + 's';
-                container.appendChild(sparkle);
-                
-                setTimeout(() => sparkle.remove(), 1500);
-            }, 300);
-        }
-
-        createSparkles();
     </script>
 </body>
 </html>
